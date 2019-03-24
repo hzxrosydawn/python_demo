@@ -5,6 +5,10 @@
 # File Name :   encode_test.py
 # Tool      :   PyCharm
 import base64
+import requests
+import json
+import numpy as np
+
 
 # 编解码二进制文件
 # base64.b64encode(s, altchars=None)接收的s是bytes类型，返回一个经Base64编码后的bytes类型对象
@@ -21,9 +25,15 @@ with open('test.png', 'rb') as binary_file_object:
 print('编码前：', test_bytes)
 encoded_bytes = base64.b64encode(test_bytes)
 print('标准编码后：')
-print(str(encoded_bytes, 'utf-8'))  # 测试字符串经Base64编码之后含有‘+’、‘/’、‘=’字符
-decoded_bytes = base64.b64decode(encoded_bytes)
-with open('test02.png', 'wb') as binary_file_object_02:
+# print(encoded_bytes.decode('utf-8'))
+# print(str(encoded_bytes, 'utf-8'))  # 测试字符串经Base64编码之后含有‘+’、‘/’、‘=’字符
+# decoded_bytes = base64.b64decode(encoded_bytes)
+# with open('test02.png', 'wb') as binary_file_object_02:
     # 将解码后的bytes对象写入一个新的二进制文件中，发现与源文件一样
-    binary_file_object_02.write(decoded_bytes)
+    # binary_file_object_02.write(decoded_bytes)
+
+form_data = {
+    'audioData_1': encoded_bytes.decode('utf-8'),
+    'audioNumber': '123456'
+}
 
