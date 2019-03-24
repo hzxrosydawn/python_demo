@@ -18,15 +18,43 @@ import base64
 # # altchars 默认为 None，表示使用标准的Base64字符进行解码
 test_str = "我在学习Java加密与解密相关的技术。我在学习Java加密与解密相关的技术。"
 print('编码前：', test_str)
+'''
+# 通用的Base64编解码测试
 encoded_bytes = base64.b64encode(test_str.encode('utf-8'))
-print('标准编码后：')
+print('通用编码后：')
 print(str(encoded_bytes, 'utf-8'))  # 测试字符串经Base64编码之后含有‘+’、‘/’、‘=’字符
 decoded_bytes = base64.b64decode(encoded_bytes)
-print('标准解码后：', str(decoded_bytes, 'utf-8'))   # 输出表名字符串已经还原
+print('通用解码后：', str(decoded_bytes, 'utf-8'))   # 输出表名字符串已经还原
 
-# 使用‘+’替换为‘-’、‘/’替换为‘_’以进行安全编码（参考RFC 3548）。目前无法替换‘=’字符，所以，仍不是URL严格安全的
+# 将‘+’替换为‘-’、‘/’替换为‘_’以进行安全编码（参考RFC 3548）。目前无法替换‘=’字符，所以，仍不是URL严格安全的
 encoded_bytes = base64.b64encode(test_str.encode('utf-8'), '-_'.encode('utf-8'))
-print('安全编码后：')
+print('自定义安全编码后：')
 print(str(encoded_bytes, 'utf-8'))  # 测试字符串经Base64编码之后含有‘+’替换为‘-’，‘/’替换为‘_’，但‘=’没有替换
 decoded_bytes = base64.b64decode(encoded_bytes, '-_')
-print('安全解码后：', str(decoded_bytes, 'utf-8'))   # 输出表名字符串已经还原
+print('自定义安全解码后：', str(decoded_bytes, 'utf-8'))   # 输出表名字符串已经还原
+'''
+
+'''
+# 标准Base64编解码测试
+# base64.standard_b64encode(s)的s接收待编码bytes对象
+encoded_bytes = base64.standard_b64encode(test_str.encode('utf-8'))
+print('标准编码后：')
+encoded_str = str(encoded_bytes, 'utf-8')
+print(encoded_str)  # 测试字符串经Base64编码之后含有‘+’、‘/’、‘=’字符
+# base64.urlsafe_b64encode(s)的s可以接收标准Base64编码后的bytes对象，也可以是标准Base64编码后的str对象
+# decoded_bytes = base64.standard_b64decode(encoded_bytes)
+decoded_bytes = base64.standard_b64decode(encoded_str)
+print('标准解码后：', str(decoded_bytes, 'utf-8'))   # 输出表名字符串已经还原
+'''
+
+# URL安全的Base64编解码测试（使用URL和文件系统安全的字符）
+# 将‘+’替换为‘-’、‘/’替换为‘_’以进行安全编码（参考RFC 3548）。目前无法替换‘=’字符，所以，仍不是URL严格安全的
+# base64.urlsafe_b64encode(s)的s接收待编码bytes对象
+encoded_bytes = base64.urlsafe_b64encode(test_str.encode('utf-8'))
+print('URL安全编码后：')
+encoded_str = str(encoded_bytes, 'utf-8')
+print(encoded_str)  # 测试字符串经Base64编码之后含有‘+’、‘/’、‘=’字符
+# base64.urlsafe_b64decode(s)的s可以接收标准Base64编码后的bytes对象，也可以是标准Base64编码后的str对象
+# decoded_bytes = base64.urlsafe_b64decode(encoded_bytes)
+decoded_bytes = base64.urlsafe_b64decode(encoded_str)
+print('URL安全解码后：', str(decoded_bytes, 'utf-8'))   # 输出表名字符串已经还原
